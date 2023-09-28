@@ -1,83 +1,19 @@
 'use strict';
 
-const { USER_TABLE } = require('./../models/user.model');
-const { CUSTOMER_TABLE } = require('./../models/customer.model');
+const { GENDER_TABLE } = require('./../models/gender.model');
+const { SIZE_TABLE } = require('./../models/size.model');
+const { COLOR_TABLE } = require('./../models/color.model');
+const { SIZE_PRODUCT_TABLE } = require('./../models/size-product.model');
+const { COLOR_PRODUCT_TABLE } = require('./../models/color-product.model');
 const { CATEGORY_TABLE } = require('./../models/category.model');
 const { PRODUCT_TABLE } = require('./../models/product.model');
-const { ORDER_TABLE } = require('./../models/order.model');
-const { ORDER_PRODUCT_TABLE } = require('./../models/order-product.model');
+
 
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable(USER_TABLE, {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.DataTypes.INTEGER
-      },
-      email: {
-        allowNull: false,
-        type: Sequelize.DataTypes.STRING,
-        unique: true,
-      },
-      password: {
-        allowNull: false,
-        type: Sequelize.DataTypes.STRING
-      },
-      role: {
-        allowNull: false,
-        type: Sequelize.DataTypes.STRING,
-        defaultValue: 'customer'
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DataTypes.DATE,
-        field: 'create_at',
-        defaultValue: Sequelize.NOW
-      }
-    });
-    await queryInterface.createTable(CUSTOMER_TABLE, {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.DataTypes.INTEGER
-      },
-      name: {
-        allowNull: false,
-        type: Sequelize.DataTypes.STRING,
-      },
-      lastName: {
-        allowNull: false,
-        type: Sequelize.DataTypes.STRING,
-        field: 'last_name',
-      },
-      phone: {
-        allowNull: true,
-        type: Sequelize.DataTypes.STRING,
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DataTypes.DATE,
-        field: 'created_at',
-        defaultValue: Sequelize.NOW,
-      },
-      userId: {
-        field: 'user_id',
-        allowNull: false,
-        type: Sequelize.DataTypes.INTEGER,
-        unique: true,
-        references: {
-          model: USER_TABLE,
-          key: 'id'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
-      }
-    });
-    await queryInterface.createTable(CATEGORY_TABLE, {
+
+    await queryInterface.createTable(GENDER_TABLE, {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -89,18 +25,9 @@ module.exports = {
         unique: true,
         allowNull: false,
       },
-      image: {
-        type: Sequelize.DataTypes.STRING,
-        allowNull: false,
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DataTypes.DATE,
-        field: 'created_at',
-        defaultValue: Sequelize.NOW,
-      },
     });
-    await queryInterface.createTable(PRODUCT_TABLE, {
+
+    await queryInterface.createTable(SIZE_TABLE, {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -109,86 +36,59 @@ module.exports = {
       },
       name: {
         type: Sequelize.DataTypes.STRING,
+        unique: true,
         allowNull: false,
       },
-      image: {
+      size1: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false,
+      },
+      size2: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false,
+      },
+      size3: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false,
+      },
+      size4: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false,
+      },
+    });
+
+    await queryInterface.createTable(COLOR_TABLE, {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.DataTypes.INTEGER
+      },
+      name: {
         type: Sequelize.DataTypes.STRING,
+        unique: true,
         allowNull: false,
       },
-      description: {
-        type: Sequelize.DataTypes.TEXT,
+      hexCode: {
+        type: Sequelize.DataTypes.STRING,
+        unique: true,
         allowNull: false,
       },
-      price: {
-        type: Sequelize.DataTypes.INTEGER,
-        allowNull: false,
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DataTypes.DATE,
-        field: 'created_at',
-        defaultValue: Sequelize.NOW,
-      },
-      categoryId: {
-        field: 'category_id',
-        allowNull: false,
-        type: Sequelize.DataTypes.INTEGER,
-        references: {
-          model: CATEGORY_TABLE,
-          key: 'id'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
-      }
     });
-    await queryInterface.createTable(ORDER_TABLE, {
+
+    await queryInterface.createTable(SIZE_PRODUCT_TABLE, {
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.DataTypes.INTEGER
       },
-      customerId: {
-        field: 'customer_id',
+      sizeId: {
+        field: 'size_id',
         allowNull: false,
         type: Sequelize.DataTypes.INTEGER,
         references: {
-          model: CUSTOMER_TABLE,
-          key: 'id'
-        },
-        onUpdate: 'CASCADE',
-        onDelete: 'SET NULL'
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DataTypes.DATE,
-        field: 'created_at',
-        defaultValue: Sequelize.NOW,
-      },
-    });
-    await queryInterface.createTable(ORDER_PRODUCT_TABLE, {
-      id: {
-        allowNull: false,
-        autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.DataTypes.INTEGER
-      },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DataTypes.DATE,
-        field: 'created_at',
-        defaultValue: Sequelize.NOW,
-      },
-      amount: {
-        allowNull: false,
-        type: Sequelize.DataTypes.INTEGER
-      },
-      orderId: {
-        field: 'order_id',
-        allowNull: false,
-        type: Sequelize.DataTypes.INTEGER,
-        references: {
-          model: ORDER_TABLE,
+          model: SIZE_TABLE,
           key: 'id'
         },
         onUpdate: 'CASCADE',
@@ -207,14 +107,28 @@ module.exports = {
       }
     });
 
+    await queryInterface.createTable(COLOR_PRODUCT_TABLE, {
+
+    });
+
+    await queryInterface.createTable(CATEGORY_TABLE, {
+
+    });
+    await queryInterface.createTable(PRODUCT_TABLE, {
+
+    });
+
   },
 
   down: async (queryInterface) => {
-    await queryInterface.dropTable(ORDER_PRODUCT_TABLE);
-    await queryInterface.dropTable(ORDER_TABLE);
+
+    await queryInterface.dropTable(GENDER_TABLE);
+    await queryInterface.dropTable(SIZE_TABLE);
+    await queryInterface.dropTable(COLOR_TABLE);
+    await queryInterface.dropTable(SIZE_PRODUCT_TABLE);
+    await queryInterface.dropTable(COLOR_PRODUCT_TABLE);
     await queryInterface.dropTable(PRODUCT_TABLE);
     await queryInterface.dropTable(CATEGORY_TABLE);
-    await queryInterface.dropTable(CUSTOMER_TABLE);
-    await queryInterface.dropTable(USER_TABLE);
+
   }
 };
