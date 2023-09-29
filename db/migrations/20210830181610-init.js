@@ -108,16 +108,95 @@ module.exports = {
     });
 
     await queryInterface.createTable(COLOR_PRODUCT_TABLE, {
-
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.DataTypes.INTEGER
+      },
+      colorId: {
+        field: 'color_id',
+        allowNull: false,
+        type: Sequelize.DataTypes.INTEGER,
+        references: {
+          model: COLOR_TABLE,
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
+      },
+      productId: {
+        field: 'product_id',
+        allowNull: false,
+        type: Sequelize.DataTypes.INTEGER,
+        references: {
+          model: PRODUCT_TABLE,
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
+      }
     });
 
     await queryInterface.createTable(CATEGORY_TABLE, {
-
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.DataTypes.INTEGER
+      },
+      name: {
+        type: Sequelize.DataTypes.STRING,
+        unique: true,
+        allowNull: false,
+      },
+      genderId: {
+        field: 'gender_id',
+        allowNull: false,
+        type: Sequelize.DataTypes.INTEGER,
+        references: {
+          model: GENDER_TABLE,
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
+      },
     });
     await queryInterface.createTable(PRODUCT_TABLE, {
-
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.DataTypes.INTEGER
+      },
+      categoryId: {
+        field: 'category_id',
+        allowNull: false,
+        type: Sequelize.DataTypes.INTEGER,
+        references: {
+          model: CATEGORY_TABLE,
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
+      },
+      reference: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false,
+      },
+      price: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false,
+      },
+      overview: {
+        type: Sequelize.DataTypes.TEXT,
+        allowNull: false,
+      },
+      material: {
+        type: Sequelize.DataTypes.TEXT,
+        allowNull: false,
+      }
     });
-
   },
 
   down: async (queryInterface) => {
