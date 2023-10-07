@@ -7,7 +7,6 @@ class ProductsService {
 
   constructor(){
     this.products = [];
-    this.generate();
   }
 
   async create(data) {

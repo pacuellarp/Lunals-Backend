@@ -19,8 +19,8 @@ const GenderSchema = {
 class Gender extends Model {
 
     static associate(models) {
-        this.hasMany(models.Gender, {
-            as: 'gender',
+        this.hasMany(models.Category, {
+            as: 'categories',
             foreignKey: 'genderId'
         });
     }
