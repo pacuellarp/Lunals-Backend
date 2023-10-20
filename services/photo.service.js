@@ -24,15 +24,37 @@ class PhotoService {
     }
   
     async update(id, changes) {
-      return {
-        id,
-        changes,
-      };
+      try {
+        const photo = await models.Photo.findByPk(id);
+    
+        if (!photo) {
+          throw boom.notFound('Photo not found');
+        }
+    
+        await photo.update(changes);
+    
+        return photo;
+      } catch (error) {
+        throw boom.badImplementation('Error updating photo', error);
+      }
     }
-  
+    
     async delete(id) {
-      return { id };
+      try {
+        const photo = await models.Photo.findByPk(id);
+    
+        if (!photo) {
+          throw boom.notFound('Photo not found');
+        }
+    
+        await photo.destroy();
+    
+        return { message: 'Photo deleted successfully' };
+      } catch (error) {
+        throw boom.badImplementation('Error deleting photo', error);
+      }
     }
+    
   
   }
   

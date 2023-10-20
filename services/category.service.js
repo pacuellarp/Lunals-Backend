@@ -24,15 +24,37 @@ class CategoryService {
   }
 
   async update(id, changes) {
-    return {
-      id,
-      changes,
-    };
+    try {
+      const category = await models.Category.findByPk(id);
+  
+      if (!category) {
+        throw boom.notFound('Category not found');
+      }
+  
+      await category.update(changes);
+  
+      return category;
+    } catch (error) {
+      throw boom.badImplementation('Error updating category', error);
+    }
   }
-
+  
   async delete(id) {
-    return { id };
+    try {
+      const category = await models.Category.findByPk(id);
+  
+      if (!category) {
+        throw boom.notFound('Category not found');
+      }
+  
+      await category.destroy();
+  
+      return { message: 'Category deleted successfully' };
+    } catch (error) {
+      throw boom.badImplementation('Error deleting category', error);
+    }
   }
+  
 
 }
 

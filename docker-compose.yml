@@ -1,7 +1,7 @@
 version: '3.3'
 
 services:
-  db:
+  postgres:
     container_name: db
     image: 'postgres:${TAG}'
     restart: always
@@ -12,7 +12,7 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - dbdata:/var/lib/postgresql/data
+      - ./postgres_data:/var/lib/postgresql/data
     networks:
       - app-network
 

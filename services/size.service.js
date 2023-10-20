@@ -24,16 +24,37 @@ class SizeService {
     }
   
     async update(id, changes) {
-      return {
-        id,
-        changes,
-      };
+      try {
+        const size = await models.Size.findByPk(id);
+    
+        if (!size) {
+          throw boom.notFound('Size not found');
+        }
+    
+        await size.update(changes);
+    
+        return size;
+      } catch (error) {
+        throw boom.badImplementation('Error updating size', error);
+      }
     }
-  
+    
     async delete(id) {
-      return { id };
+      try {
+        const size = await models.Size.findByPk(id);
+    
+        if (!size) {
+          throw boom.notFound('Size not found');
+        }
+    
+        await size.destroy();
+    
+        return { message: 'Size deleted successfully' };
+      } catch (error) {
+        throw boom.badImplementation('Error deleting size', error);
+      }
     }
-  
+    
   }
   
   module.exports = SizeService;

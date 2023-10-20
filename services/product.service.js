@@ -52,27 +52,48 @@ class ProductsService {
     return product;
   }
 
-  async update(id, changes) {
-    const index = this.products.findIndex(item => item.id === id);
-    if (index === -1) {
-      throw boom.notFound('product not found');
-    }
-    const product = this.products[index];
-    this.products[index] = {
-      ...product,
-      ...changes
-    };
-    return this.products[index];
+  async addSize(data) {
+    const newSize = await models.SizeProduct.create(data);
+    return newSize;
   }
 
-  async delete(id) {
-    const index = this.products.findIndex(item => item.id === id);
-    if (index === -1) {
-      throw boom.notFound('product not found');
-    }
-    this.products.splice(index, 1);
-    return { id };
+  async addColor(data) {
+    const newColor = await models.ColorProduct.create(data);
+    return newColor;
   }
+
+  async update(id, changes) {
+    try {
+      const product = await models.Product.findByPk(id);
+  
+      if (!product) {
+        throw boom.notFound('Product not found');
+      }
+  
+      await product.update(changes);
+  
+      return product;
+    } catch (error) {
+      throw boom.badImplementation('Error updating product', error);
+    }
+  }
+  
+  async delete(id) {
+    try {
+      const product = await models.Product.findByPk(id);
+  
+      if (!product) {
+        throw boom.notFound('Product not found');
+      }
+  
+      await product.destroy();
+  
+      return { message: 'Product deleted successfully' };
+    } catch (error) {
+      throw boom.badImplementation('Error deleting product', error);
+    }
+  }
+  
 
 }
 

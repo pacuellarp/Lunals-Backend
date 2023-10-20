@@ -8,6 +8,10 @@ const price = Joi.number().integer();
 const overview = Joi.string();
 const material = Joi.string();
 
+const sizeId = Joi.number().integer();
+const colorId = Joi.number().integer();
+const productId = Joi.number().integer();
+
 
 const price_min = Joi.number().integer();
 const price_max = Joi.number().integer();
@@ -48,4 +52,14 @@ const queryProductSchema = Joi.object({
   })
 });
 
-module.exports = { createProductSchema, updateProductSchema, getProductSchema, queryProductSchema }
+const addSizeSchema = Joi.object({
+  sizeId: sizeId.required(),
+  productId: productId.required(),
+});
+
+const addColorSchema = Joi.object({
+  colorId: colorId.required(),
+  productId: productId.required(),
+});
+
+module.exports = { createProductSchema, updateProductSchema, getProductSchema, queryProductSchema, addSizeSchema, addColorSchema }

@@ -24,15 +24,40 @@ class GenderService {
     }
   
     async update(id, changes) {
-      return {
-        id,
-        changes,
-      };
+      try {
+  
+        const gender = await models.Gender.findByPk(id);
+    
+        if (!gender) {
+          throw boom.notFound('Gender not found');
+        }
+  
+        await gender.update(changes);
+    
+        return gender;
+      } catch (error) {
+        throw boom.badImplementation('Error updating gender', error);
+      }
     }
   
     async delete(id) {
-      return { id };
+      try {
+
+        const gender = await models.Gender.findByPk(id);
+    
+        if (!gender) {
+          throw boom.notFound('Gender not found');
+        }
+
+        await gender.destroy();
+    
+
+        return { message: 'Gender deleted successfully' };
+      } catch (error) {
+        throw boom.badImplementation('Error deleting gender', error);
+      }
     }
+    
   
   }
   

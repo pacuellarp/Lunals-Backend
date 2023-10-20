@@ -7,6 +7,8 @@ const { SIZE_PRODUCT_TABLE } = require('./../models/size-product.model');
 const { COLOR_PRODUCT_TABLE } = require('./../models/color-product.model');
 const { CATEGORY_TABLE } = require('./../models/category.model');
 const { PRODUCT_TABLE } = require('./../models/product.model');
+const { PHOTO_TABLE } = require('./../models/photo.model');
+const { VIDEO_TABLE } = require('./../models/video.model');
 
 
 
@@ -75,7 +77,65 @@ module.exports = {
         allowNull: false,
       },
     });
-
+    await queryInterface.createTable(CATEGORY_TABLE, {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.DataTypes.INTEGER
+      },
+      name: {
+        type: Sequelize.DataTypes.STRING,
+        unique: true,
+        allowNull: false,
+      },
+      genderId: {
+        field: 'gender_id',
+        allowNull: false,
+        type: Sequelize.DataTypes.INTEGER,
+        references: {
+          model: GENDER_TABLE,
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
+      },
+    });
+    await queryInterface.createTable(PRODUCT_TABLE, {
+      id: {
+        allowNull: false,
+        autoIncrement: true,
+        primaryKey: true,
+        type: Sequelize.DataTypes.INTEGER
+      },
+      categoryId: {
+        field: 'category_id',
+        allowNull: false,
+        type: Sequelize.DataTypes.INTEGER,
+        references: {
+          model: CATEGORY_TABLE,
+          key: 'id'
+        },
+        onUpdate: 'CASCADE',
+        onDelete: 'SET NULL'
+      },
+      reference: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false,
+      },
+      price: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false,
+      },
+      overview: {
+        type: Sequelize.DataTypes.TEXT,
+        allowNull: false,
+      },
+      material: {
+        type: Sequelize.DataTypes.TEXT,
+        allowNull: false,
+      }
+    });
     await queryInterface.createTable(SIZE_PRODUCT_TABLE, {
       id: {
         allowNull: false,
@@ -137,65 +197,51 @@ module.exports = {
         onDelete: 'SET NULL'
       }
     });
-
-    await queryInterface.createTable(CATEGORY_TABLE, {
+    await queryInterface.createTable(PHOTO_TABLE,{
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.DataTypes.INTEGER
       },
-      name: {
-        type: Sequelize.DataTypes.STRING,
-        unique: true,
-        allowNull: false,
-      },
-      genderId: {
-        field: 'gender_id',
+      productId: {
+        field: 'product_id',
         allowNull: false,
         type: Sequelize.DataTypes.INTEGER,
         references: {
-          model: GENDER_TABLE,
+          model: PRODUCT_TABLE,
           key: 'id'
         },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL'
+      },
+      link: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false,
       },
     });
-    await queryInterface.createTable(PRODUCT_TABLE, {
+    await queryInterface.createTable(VIDEO_TABLE,{
       id: {
         allowNull: false,
         autoIncrement: true,
         primaryKey: true,
         type: Sequelize.DataTypes.INTEGER
       },
-      categoryId: {
-        field: 'category_id',
+      productId: {
+        field: 'product_id',
         allowNull: false,
         type: Sequelize.DataTypes.INTEGER,
         references: {
-          model: CATEGORY_TABLE,
+          model: PRODUCT_TABLE,
           key: 'id'
         },
         onUpdate: 'CASCADE',
         onDelete: 'SET NULL'
       },
-      reference: {
-        type: Sequelize.DataTypes.INTEGER,
+      link: {
+        type: Sequelize.DataTypes.STRING,
         allowNull: false,
       },
-      price: {
-        type: Sequelize.DataTypes.INTEGER,
-        allowNull: false,
-      },
-      overview: {
-        type: Sequelize.DataTypes.TEXT,
-        allowNull: false,
-      },
-      material: {
-        type: Sequelize.DataTypes.TEXT,
-        allowNull: false,
-      }
     });
   },
 
@@ -208,6 +254,8 @@ module.exports = {
     await queryInterface.dropTable(COLOR_PRODUCT_TABLE);
     await queryInterface.dropTable(PRODUCT_TABLE);
     await queryInterface.dropTable(CATEGORY_TABLE);
+    await queryInterface.dropTable(PHOTO_TABLE);
+    await queryInterface.dropTable(VIDEO_TABLE);
 
   }
 };

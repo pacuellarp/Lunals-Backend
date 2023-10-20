@@ -5,11 +5,11 @@ const routerApi = require('./routes');
 const { logErrors, errorHandler, boomErrorHandler, ormErrorHandler } = require('./middlewares/error.handler');
 
 const app = express();
-const port = process.env.PORT || 8000;
+const port = process.env.PORT || 3000;
 
 app.use(express.json());
 
-const whitelist = ['http://localhost:8000', 'https://lunalsfashiondesign.vercel.app'];
+const whitelist = ['http://localhost','http://localhost:5050','http://localhost:8080', 'https://lunalsfashiondesign.vercel.app'];
 const options = {
   origin: (origin, callback) => {
     if (whitelist.includes(origin) || !origin) {

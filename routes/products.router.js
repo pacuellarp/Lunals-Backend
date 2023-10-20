@@ -2,7 +2,7 @@ const express = require('express');
 
 const ProductsService = require('./../services/product.service');
 const validatorHandler = require('./../middlewares/validator.handler');
-const { createProductSchema, updateProductSchema, getProductSchema, queryProductSchema } = require('./../schemas/product.schema');
+const { createProductSchema, updateProductSchema, getProductSchema, queryProductSchema, addSizeSchema, addColorSchema } = require('./../schemas/product.schema');
 
 const router = express.Router();
 const service = new ProductsService();
@@ -67,6 +67,35 @@ router.delete('/:id',
       const { id } = req.params;
       await service.delete(id);
       res.status(201).json({id});
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+
+router.post(
+  '/add-size',
+  validatorHandler(addSizeSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const body = req.body;
+      const newSize = await service.addSize(body);
+      res.status(201).json(newSize);
+    } catch (error) {
+      next(error);
+    }
+  }
+);
+
+router.post(
+  '/add-color',
+  validatorHandler(addColorSchema, 'body'),
+  async (req, res, next) => {
+    try {
+      const body = req.body;
+      const newColor = await service.addColor(body);
+      res.status(201).json(newColor);
     } catch (error) {
       next(error);
     }

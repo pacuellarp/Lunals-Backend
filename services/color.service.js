@@ -24,15 +24,37 @@ class ColorService {
     }
   
     async update(id, changes) {
-      return {
-        id,
-        changes,
-      };
+      try {
+        const color = await models.Color.findByPk(id);
+    
+        if (!color) {
+          throw boom.notFound('Color not found');
+        }
+    
+        await color.update(changes);
+    
+        return color;
+      } catch (error) {
+        throw boom.badImplementation('Error updating color', error);
+      }
     }
-  
+    
     async delete(id) {
-      return { id };
+      try {
+        const color = await models.Color.findByPk(id);
+    
+        if (!color) {
+          throw boom.notFound('Color not found');
+        }
+    
+        await color.destroy();
+    
+        return { message: 'Color deleted successfully' };
+      } catch (error) {
+        throw boom.badImplementation('Error deleting color', error);
+      }
     }
+    
   
   }
   
