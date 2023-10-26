@@ -4,10 +4,10 @@ const USER = encodeURIComponent(config.dbUser);
 const PASSWORD = encodeURIComponent(config.dbPassword);
 
 let URI = '';
-if (config.env == 'development') {
+if (!(config.env == 'development')) {
   URI = `${config.dialect}://${USER}:${PASSWORD}@${config.dbHost}:${config.dbPort}/${config.dbName}`;
 } else {
-  URI = config.URI;
+  URI = config.dbUrl;
 }
 
 module.exports = {
