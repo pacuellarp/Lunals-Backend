@@ -39,7 +39,8 @@ const ColorProductSchema =  {
 class ColorProduct extends Model {
 
   static associate(models) {
-    //
+    this.belongsTo(models.Color, { foreignKey: 'colorId', targetKey: 'id', as: 'colors' })
+    this.belongsTo(models.Product, { foreignKey: 'productId', targetKey: 'id', as: 'items' })
   }
 
   static config(sequelize) {

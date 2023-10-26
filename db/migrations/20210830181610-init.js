@@ -108,6 +108,10 @@ module.exports = {
         primaryKey: true,
         type: Sequelize.DataTypes.INTEGER
       },
+      name: {
+          type: Sequelize.DataTypes.STRING,
+          allowNull: false,
+      },
       categoryId: {
         field: 'category_id',
         allowNull: false,
@@ -247,15 +251,14 @@ module.exports = {
 
   down: async (queryInterface) => {
 
+    await queryInterface.dropTable(SIZE_PRODUCT_TABLE);
+    await queryInterface.dropTable(COLOR_PRODUCT_TABLE);
+    await queryInterface.dropTable(PHOTO_TABLE);
+    await queryInterface.dropTable(VIDEO_TABLE);
+    await queryInterface.dropTable(PRODUCT_TABLE);
+    await queryInterface.dropTable(CATEGORY_TABLE);
     await queryInterface.dropTable(GENDER_TABLE);
     await queryInterface.dropTable(SIZE_TABLE);
     await queryInterface.dropTable(COLOR_TABLE);
-    await queryInterface.dropTable(SIZE_PRODUCT_TABLE);
-    await queryInterface.dropTable(COLOR_PRODUCT_TABLE);
-    await queryInterface.dropTable(PRODUCT_TABLE);
-    await queryInterface.dropTable(CATEGORY_TABLE);
-    await queryInterface.dropTable(PHOTO_TABLE);
-    await queryInterface.dropTable(VIDEO_TABLE);
-
   }
 };

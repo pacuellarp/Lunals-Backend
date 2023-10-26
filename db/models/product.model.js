@@ -11,6 +11,10 @@ const ProductSchema = {
     primaryKey: true,
     type: DataTypes.INTEGER
   },
+  name: {
+    type: DataTypes.STRING,
+    allowNull: false,
+  },
   categoryId: {
     field: 'category_id',
     allowNull: false,
@@ -52,6 +56,18 @@ class Product extends Model {
     this.hasMany(models.Video, {
       as: 'videos',
       foreignKey: 'productId'
+    });
+    this.belongsToMany(models.Size, {
+      as: 'sizes',
+      through: models.SizeProduct,
+      foreignKey: 'product_id',
+      otherKey: 'size_id'
+     });
+    this.belongsToMany(models.Color, {
+      as: 'colors',
+      through: models.ColorProduct,
+      foreignKey: 'product_id',
+      otherKey: 'color_id'
     });
   }
 

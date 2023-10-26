@@ -8,6 +8,8 @@ const colorsRouter = require('./colors.router');
 const sizesRouter = require('./sizes.router');
 const photosRouter = require('./photos.route');
 const videosRouter = require('./videos.router');
+const sizeProductsRouter = require('./size-products.router')
+const colorProductsRouter = require('./color-products.router')
 
 function routerApi(app) {
   const router = express.Router();
@@ -19,6 +21,8 @@ function routerApi(app) {
   router.use('/sizes',sizesRouter);
   router.use('/photos',photosRouter);
   router.use('/videos',videosRouter);
+  router.use('/size-product',sizeProductsRouter)
+  router.use('/color-product',colorProductsRouter)
 }
 
 module.exports = routerApi;

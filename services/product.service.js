@@ -52,16 +52,6 @@ class ProductsService {
     return product;
   }
 
-  async addSize(data) {
-    const newSize = await models.SizeProduct.create(data);
-    return newSize;
-  }
-
-  async addColor(data) {
-    const newColor = await models.ColorProduct.create(data);
-    return newColor;
-  }
-
   async update(id, changes) {
     try {
       const product = await models.Product.findByPk(id);

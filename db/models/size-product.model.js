@@ -39,7 +39,8 @@ const SizeProductSchema =  {
 class SizeProduct extends Model {
 
   static associate(models) {
-    //
+    this.belongsTo(models.Size, { foreignKey: 'sizeId', targetKey: 'id', as: 'sizes' })
+    this.belongsTo(models.Product, { foreignKey: 'productId', targetKey: 'id', as: 'items' })
   }
 
   static config(sequelize) {
