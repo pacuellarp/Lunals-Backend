@@ -21,7 +21,6 @@ async function backendLF() {
       key,
       process.env.CRYPTO_ALGORITHM
     );
-    console.log(decryptedEmail, decryptedPassword);
 
     backendLifeTime(decryptedEmail, decryptedPassword);
   } catch (error) {
@@ -31,12 +30,12 @@ async function backendLF() {
 }
 
 // Programar ejecución a la medianoche (00:00)
-const backendMidnightCron = cron.schedule('0 0 * * *', backendLF, {
+const backendMidnightCron = cron.schedule('00 00 * * *', backendLF, {
   timezone: 'America/Bogota',
 });
 
 // Programar ejecución al mediodía (12:00)
-const backendNoonCron = cron.schedule('0 12 * * *', backendLF, {
+const backendNoonCron = cron.schedule('00 12 * * *', backendLF, {
   timezone: 'America/Bogota',
 });
 
