@@ -1,10 +1,10 @@
 const express = require('express');
 const cors = require('cors');
 const routerApi = require('./routes');
-const {
-  backendMidnightCron,
-  backendNoonCron,
-} = require('./backendLifeTime/backendCron');
+//const {
+// backendMidnightCron,
+// backendNoonCron,
+//} = require('./backendLifeTime/backendCron');
 
 const {
   logErrors,
@@ -45,8 +45,8 @@ app.get('/nueva-ruta', (req, res) => {
 
 routerApi(app);
 
-backendMidnightCron.start();
-backendNoonCron.start();
+//backendMidnightCron.start();
+//backendNoonCron.start();
 
 app.use(logErrors);
 app.use(ormErrorHandler);
